@@ -13,6 +13,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<RaceDbContext>();
     db.Database.Migrate();
+    DataSeeder.Seed(db);
 }
 
 app.MapGet("/", () => "RaceTracker is running");
