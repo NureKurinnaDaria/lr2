@@ -12,6 +12,7 @@ public class RaceDbContext : DbContext
     public DbSet<Checkpoint> Checkpoints => Set<Checkpoint>();
     public DbSet<Result> Results => Set<Result>();
     public DbSet<Country> Countries => Set<Country>();
+    public DbSet<Team> Teams => Set<Team>();
 
     protected override void OnModelCreating(ModelBuilder b)
     {
@@ -22,5 +23,6 @@ public class RaceDbContext : DbContext
         b.Entity<Checkpoint>().Property(c => c.DistanceKm).HasPrecision(6, 2);
         b.Entity<Country>().Property(c => c.Code).HasMaxLength(3);
         b.Entity<Country>().HasIndex(c => c.Code).IsUnique();
+        b.Entity<Team>().HasIndex(t => t.Name).IsUnique();
     }
 }

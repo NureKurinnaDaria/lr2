@@ -40,12 +40,14 @@ namespace RaceTracker.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Team")
-                        .HasColumnType("text");
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("integer");
 
                     b.HasKey("AthleteId");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("TeamId");
 
                     b.ToTable("Athletes");
                 });
@@ -175,6 +177,26 @@ namespace RaceTracker.Migrations
                     b.ToTable("Results");
                 });
 
+            modelBuilder.Entity("RaceTracker.Models.Team", b =>
+                {
+                    b.Property<int>("TeamId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TeamId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("TeamId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Teams");
+                });
+
             modelBuilder.Entity("RaceTracker.Models.Athlete", b =>
                 {
                     b.HasOne("RaceTracker.Models.Country", "Country")
@@ -183,7 +205,13 @@ namespace RaceTracker.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RaceTracker.Models.Team", "Team")
+                        .WithMany("Athletes")
+                        .HasForeignKey("TeamId");
+
                     b.Navigation("Country");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("RaceTracker.Models.Checkpoint", b =>
@@ -237,6 +265,11 @@ namespace RaceTracker.Migrations
             modelBuilder.Entity("RaceTracker.Models.Race", b =>
                 {
                     b.Navigation("Checkpoints");
+                });
+
+            modelBuilder.Entity("RaceTracker.Models.Team", b =>
+                {
+                    b.Navigation("Athletes");
                 });
 #pragma warning restore 612, 618
         }
