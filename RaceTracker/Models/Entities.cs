@@ -20,6 +20,7 @@ public class Race
     public DateOnly RaceDate { get; set; }
     public decimal DistanceKm { get; set; }
     public List<Checkpoint> Checkpoints { get; set; } = new();
+    public string Status { get; set; } = "Scheduled";
 }
 
 public class Checkpoint

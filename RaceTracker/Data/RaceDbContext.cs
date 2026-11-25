@@ -26,5 +26,6 @@ public class RaceDbContext : DbContext
         b.Entity<Team>().HasIndex(t => t.Name).IsUnique();
         b.Entity<Result>().HasIndex(r => new { r.RaceId, r.CheckpointNo });
         b.Entity<Result>().HasIndex(r => new { r.AthleteId, r.RaceId });
+        b.Entity<Race>().Property(r => r.Status).HasMaxLength(20).HasDefaultValue("Scheduled");
     }
 }
