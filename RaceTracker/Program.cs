@@ -17,4 +17,11 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.MapGet("/", () => "RaceTracker is running");
+app.MapGet("/top8/{raceId:int}", async (int raceId, RaceDbContext db) =>
+    await db.Results
+        .Where(r => r.RaceId == raceId && r.CheckpointNo == 5)
+        .OrderBy(r => r.ElapsedTime)
+        .Take(8)
+        .Select(r => new { r.Athlete.FullName, r.ElapsedTime, r.Rank })
+        .ToListAsync());
 app.Run();
