@@ -149,8 +149,8 @@ namespace RaceTracker.Migrations
                         .HasColumnType("integer");
 
                     b.Property<decimal>("ElapsedTime")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
+                        .HasPrecision(10, 3)
+                        .HasColumnType("numeric(10,3)");
 
                     b.Property<decimal>("GapToFirst")
                         .HasPrecision(10, 2)

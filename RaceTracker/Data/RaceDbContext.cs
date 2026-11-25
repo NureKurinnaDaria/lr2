@@ -16,7 +16,7 @@ public class RaceDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder b)
     {
-        b.Entity<Result>().Property(r => r.ElapsedTime).HasPrecision(10, 2);
+        b.Entity<Result>().Property(r => r.ElapsedTime).HasPrecision(10, 3);
         b.Entity<Result>().Property(r => r.SegmentSpeed).HasPrecision(6, 2);
         b.Entity<Result>().Property(r => r.GapToFirst).HasPrecision(10, 2);
         b.Entity<Race>().Property(r => r.DistanceKm).HasPrecision(6, 2);
