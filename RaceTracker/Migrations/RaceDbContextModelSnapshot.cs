@@ -168,11 +168,11 @@ namespace RaceTracker.Migrations
 
                     b.HasKey("ResultId");
 
-                    b.HasIndex("AthleteId");
-
                     b.HasIndex("CheckpointId");
 
-                    b.HasIndex("RaceId");
+                    b.HasIndex("AthleteId", "RaceId");
+
+                    b.HasIndex("RaceId", "CheckpointNo");
 
                     b.ToTable("Results");
                 });

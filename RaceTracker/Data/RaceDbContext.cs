@@ -24,5 +24,7 @@ public class RaceDbContext : DbContext
         b.Entity<Country>().Property(c => c.Code).HasMaxLength(3);
         b.Entity<Country>().HasIndex(c => c.Code).IsUnique();
         b.Entity<Team>().HasIndex(t => t.Name).IsUnique();
+        b.Entity<Result>().HasIndex(r => new { r.RaceId, r.CheckpointNo });
+        b.Entity<Result>().HasIndex(r => new { r.AthleteId, r.RaceId });
     }
 }
