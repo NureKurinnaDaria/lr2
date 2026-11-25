@@ -4,7 +4,8 @@ public class Athlete
 {
     public int AthleteId { get; set; }
     public string FullName { get; set; } = "";
-    public string Country { get; set; } = "";
+    public int CountryId { get; set; }
+    public Country Country { get; set; } = null!;
     public string? Team { get; set; }
     public List<Result> Results { get; set; } = new();
     public DateOnly? BirthDate { get; set; }
@@ -44,4 +45,12 @@ public class Result
     public decimal SegmentSpeed { get; set; }
     public int Rank { get; set; }
     public decimal GapToFirst { get; set; }
+}
+
+public class Country
+{
+    public int CountryId { get; set; }
+    public string Code { get; set; } = "";
+    public string? Name { get; set; }
+    public List<Athlete> Athletes { get; set; } = new();
 }

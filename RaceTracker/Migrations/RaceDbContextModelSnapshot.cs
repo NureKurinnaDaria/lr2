@@ -33,9 +33,8 @@ namespace RaceTracker.Migrations
                     b.Property<DateOnly?>("BirthDate")
                         .HasColumnType("date");
 
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("CountryId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -45,6 +44,8 @@ namespace RaceTracker.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("AthleteId");
+
+                    b.HasIndex("CountryId");
 
                     b.ToTable("Athletes");
                 });
@@ -72,6 +73,30 @@ namespace RaceTracker.Migrations
                     b.HasIndex("RaceId");
 
                     b.ToTable("Checkpoints");
+                });
+
+            modelBuilder.Entity("RaceTracker.Models.Country", b =>
+                {
+                    b.Property<int>("CountryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CountryId"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("character varying(3)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("CountryId");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("RaceTracker.Models.Race", b =>
@@ -150,6 +175,17 @@ namespace RaceTracker.Migrations
                     b.ToTable("Results");
                 });
 
+            modelBuilder.Entity("RaceTracker.Models.Athlete", b =>
+                {
+                    b.HasOne("RaceTracker.Models.Country", "Country")
+                        .WithMany("Athletes")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
+
             modelBuilder.Entity("RaceTracker.Models.Checkpoint", b =>
                 {
                     b.HasOne("RaceTracker.Models.Race", "Race")
@@ -191,6 +227,11 @@ namespace RaceTracker.Migrations
             modelBuilder.Entity("RaceTracker.Models.Athlete", b =>
                 {
                     b.Navigation("Results");
+                });
+
+            modelBuilder.Entity("RaceTracker.Models.Country", b =>
+                {
+                    b.Navigation("Athletes");
                 });
 
             modelBuilder.Entity("RaceTracker.Models.Race", b =>
